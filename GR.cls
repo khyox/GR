@@ -1,13 +1,14 @@
 % !TeX TS-program = lualatex
 % !TeX encoding = UTF-8
 % ===============================
-%  Genome Research class by JMMM
+%  Genome Research class by 
+%  Jose Manuel Martí (I2SysBio)
 % ===============================
-%  Release: 25 Apr 2018
+%  Release: 19 Jan 2019
 % ===============================
 %  Front-end: luaLaTeX
 % ===============================
-\ProvidesClass{GR}[2018/04/25 GR]
+\ProvidesClass{GR}[2019/01/19 GR]
 \NeedsTeXFormat{LaTeX2e}
 
 %%% CALL BASE CLASS
@@ -64,14 +65,8 @@
 \renewcommand{\topfraction}{0.85}
 \renewcommand{\textfraction}{0.1}
 
-\RequirePackage{floatrow}
-\floatsetup[table]{capposition=top}
-
-
-%%%%%%%%%%%%
-% BioLaTex %
-%%%%%%%%%%%%
-\RequirePackage{textopo}  % This line could be safely commented if you don't use this package
+%\RequirePackage{floatrow}
+%\floatsetup[table]{capposition=top}
 
 
 %%%%%%%%%
@@ -101,7 +96,7 @@ BoldFont = * Regular,
 %%%%%%%%%%
 
 %%% MATH AND UNITS
-\RequirePackage{moreverb} % for verbatim output
+%\RequirePackage{moreverb} % for verbatim output
 \RequirePackage{amsmath}  % math notation
 \RequirePackage{amssymb}  % math notation
 \RequirePackage[binary-units]{siunitx}  % SI units notation
@@ -159,6 +154,7 @@ bookmarks=true
 	maxcitenames=2,
 	maxbibnames=10,
 %	uniquelist=false,  % Avoid disambiguation adding a 2n surname
+	uniquename=init,
 	maxitems=2,
 	giveninits=true,
 	terseinits=true,
@@ -172,7 +168,7 @@ bookmarks=true
 
 % General customizations
 
-\DeclareNameAlias{sortname}{last-first}  % Last-1st name order in the bibliography
+\DeclareNameAlias{sortname}{family-given}  % Last-1st name order in the bibliography
 \renewcommand*{\revsdnamepunct}{}  % Remove remove commas between last and first names in bibliography
 \DeclareFieldFormat*{title}{#1}  % Remove "" enclosing the title
 

@@ -1,0 +1,122 @@
+% !TeX encoding = UTF-8
+% !TeX spellcheck = en_US
+% !TeX TS-program = lualatex
+% !TEX root = exampleGR.tex
+\documentclass{GR}
+\addbibresource{exampleGR.bib}
+
+% FONTS NOTE: This example uses fonts similar to those used by Genome Research,
+% but you may have different fonts installed in your system. If you compile the
+% doc and run into trouble with the fonts, just open the GR.cls file and change
+% the fonts to your preferred ones.
+
+% BIB NOTE: This example uses BibLaTeX with biber as backend.
+
+% release codenumber (update it here!)
+\newcommand\releasecode{v0.1}
+% watermarks (Time-consuming! Comment while working with the document)
+\usepackage[printwatermark]{xwatermark}
+\newwatermark[allpages,color=ForestGreen!6,angle=45,scale=8,xpos=-27,ypos=0]{DRAFT}
+\newwatermark[allpages,color=ForestGreen!25,angle=0,scale=1,xpos=0,ypos=137]{
+\emph{Genome Research} draft \LaTeX\ \releasecode}
+
+
+%%% DOCUMENT %%%
+
+\begin{document}
+
+\title{
+	\vspace*{0mm} % May help to include the corresponding author footnote in the title page
+	\singlespacing
+	\begin{flushleft}
+		\texttt{\large Title:} \\
+	\end{flushleft}
+	\vspace*{2mm}
+	{\huge\titlefont Recentrifuge: robust comparative analysis
+		 and contamination removal for metagenomics}\\
+	\vspace*{0mm}
+	\begin{flushleft}
+		\texttt{\large Running title:} \\
+	\end{flushleft}
+	\vspace*{0mm}
+	\Huge \href{http://www.recentrifuge.org}{\rtitlefont Recentrifuge} 
+	\vspace*{4mm}
+	}
+
+\doublespacing
+
+\author[1,\#]{\mdseries\Large\authorfont Jose Manuel Martí}
+\begin{NoHyper}
+	\relax\renewcommand\thefootnote{\#}\footnotetext{Contact: jose.m.marti@uv.es}
+\end{NoHyper}
+
+\affil[1]{\sffamily\slshape\large Institute for Integrative Systems Biology \textup{(I\textsuperscript{2}SysBio)}, Valencia, Spain.}
+
+\date{January 19, 2019}
+
+\maketitle
+
+%%% Abstract
+
+{\abstract{\sffamily\large Metagenomic sequencing is becoming widespread in biomedical and environmental research, and the pace is increasing even more thanks to nanopore sequencing. With a rising number of samples and data per sample, the challenge of efficiently comparing results within a specimen and between specimens arises. Reagents, laboratory, and host related contaminants complicate such analysis. Contamination is particularly critical in low microbial biomass body sites and environments, where it can comprise most of a sample if not all. Recentrifuge implements a robust method for the removal of negative-control and crossover taxa from the rest of samples. With Recentrifuge, researchers can analyze results from taxonomic classifiers using interactive charts with emphasis on the confidence level of the classifications. In addition to contamination-subtracted samples, Recentrifuge provides shared and exclusive taxa per sample, thus enabling robust contamination removal and comparative analysis in environmental and clinical metagenomics.} 
+
+\begin{keywords}
+	metagenomics, robustness, comparative analysis, contamination removal, low microbial biomass
+\end{keywords}
+
+
+%===================================== SECTIONS =======================================
+
+%%% Introduction
+
+\section*{Introduction}
+
+Studies of microbial communities by metagenomics are becoming more popular in different biological arenas, like environmental, clinical, food and forensic studies \parencite{publicHealth, food, forensicsBook}. (...). With the development of nanopore sequencing, portable and affordable real-time SMS is a reality \parencite{extreme}.
+
+In the case of low microbial biomass samples, there is very little native DNA from microbes; the library preparation and sequencing methods will return sequences whose principal source is contamination \parencite{Weiss2014Knight, pitfalls}. Sequencing of RNA requiring additional steps introduces still further biases and artifacts \parencite{centrifuge}, which in case of low microbial biomass studies translates into a severe problem of contamination and spurious taxa detection \parencite{metaCSF}. The clinical metagenomics community is stressing the importance of negative controls in metagenomics workflows and, recently, raised a fundamental concern about how to subtract the contaminants from the results \parencite{Ruppe2018}. (...)
+
+All these tools are performing taxonomic classification and abundance estimation, whereas LMAT \parencite{LMAT, LMAT2} is also able to annotate genes. For the taxonomic classification, both LMAT and Kraken \parencite{kraken} use an exact k-mer matching algorithm with large databases (\SI{100}[\sim]{\gibi\byte}) while Centrifuge \parencite{centrifuge} use compression algorithms to reduce the databases size (\SI{10}[\sim]{\gibi\byte}) but at some speed expense. CLARK-S \parencite{CLARK-S} use discriminative spaced k-mers to improve the sensitivity but with a toll on the performance.
+
+%%% Methods
+
+\section*{Methods}
+\small
+\subsection*{Robust contamination removal}
+For a taxonomic rank $k$, after the `tree folding' procedure detailed above, the contamination removal algorithm retrieves the set of candidates $\bar{T}^{\rightarrow k}_s$ to contaminant taxa from the $N<S$ control samples. Depending on the relative frequency $\left(f_i=n_i/\sum_i n_i\right)$ ...
+
+Other classes of Bib\LaTeX\ references are \emph{inproceedings} with COMMET \parencite{COMMET}, \emph{online} with entrez \parencite{entrez}, and \emph{misc} with PEP-484 \parencite{PEP484}. 
+
+\subsection*{Derived samples}
+In addition to the input samples, Recentrifuge includes some sets of derived samples in its output. After parallel calculations for each taxonomic level of interest, it adds hierarchical pie plots for {\tt CTRL} (control subtracted), but also for {\tt EXCLUSIVE}, {\tt SHARED} and {\tt SHARED\_CONTROL} samples, defined below. (...)
+
+\begin{eqnarray*}
+{}^{\mathtt{CTRL}}T_s^k &=& T^{\rightarrow k}_s \;\;\setminus\;\; \bigcup_{n}^N T_n^{\rightarrow k} \\
+{}^{\mathtt{EXCLUSIVE}}T_s^k &=& T^{\rightarrow k}_s \;\;\setminus\;\; \bigcup_{m\neq s}^S T_m^{\rightarrow k} \\
+{}^{\mathtt{SHARED}}T^k &=& \bigcap_{m}^S T_m^{\rightarrow k} \\
+{}^{\mathtt{SHARED\_CONTROL}}T^k &=& \bigcap_{m>N}^S T_m^{\rightarrow k} \;\;\setminus\;\; \bigcup_{n}^N T_n^{\rightarrow k}
+\end{eqnarray*}
+\normalsize
+
+%%% Results
+\section*{Results}
+
+Recentrifuge is a metagenomics analysis software with two different main parts: the computing kernel, implemented and parallelized from scratch using Python, and the interactive interface, written in JavaScript as an extension of the Krona \parencite{krona} JavaScript library to take full advantage of the classification confidence level. (...)
+
+%%% Discussion
+\section*{Discussion}
+Recentrifuge enables robust contamination removal and score-oriented comparative analysis of multiple samples, especially in low microbial biomass metagenomic studies, where contamination removal is a must. (...)
+
+\section*{Data access}
+Recentrifuge's main website is \href{http://www.recentrifuge.org}{www.recentrifuge.org}. The data and source code are anonymously and freely available on GitHub at \href{https://github.com/khyox/recentrifuge}{https://github.com/khyox/recentrifuge} and PyPI at \href{https://pypi.org/project/recentrifuge/}{https://pypi.org/project/recentrifuge}. The Recentrifuge computing code is licensed under the GNU Affero General Public License Version 3 (\href{https://www.gnu.org/licenses/agpl.html}{www.gnu.org/licenses/agpl.html}). 
+
+Recentrifuge's continuous integration (CI) information is public on Travis CI at the website \href{https://travis-ci.org/khyox/recentrifuge}{https://travis-ci.org/khyox/recentrifuge}. 
+
+The wiki (\href{https://github.com/khyox/recentrifuge/wiki}{https://github.com/khyox/recentrifuge/wiki}) is the most extensive and updated source of documentation for Recentrifuge, including installation, testing, quick-start, and comprehensive use cases for the different taxonomic classification engines supported.
+
+\section*{Acknowledgments}
+ I would like to thank ...
+
+%===================================== BIBLIOGRAPHY =======================================
+\printbibliography
+
+\end{document}
